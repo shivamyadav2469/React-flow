@@ -148,7 +148,6 @@ const CustomNodeComponent2 = ({ data, node, onCopy, onDelete }) => {
 
       <Handle type="source" position={Position.Bottom} style={styles.handle} />
 
-      {/* Popover */}
       {isPopoverVisible && (
         <div style={styles.popover}>
           <div style={styles.popoverItem} onClick={handleCopy}>Copy</div>

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import Workflow from './Workflow';
 import Sidebar from './Sidebar';
+import ErrorBoundary from './ErrorBoundary';
 
 function App() {
   const [addNodeFunc, setAddNodeFunc] = useState(null);
@@ -16,12 +17,14 @@ function App() {
 
   return (
     <div style={{ display: 'flex' }}>
-      {/* Sidebar component */}
       <Sidebar onAddNode={handleAddNode} />
       
-      {/* Workflow component */}
       <div style={{ flex: 1, paddingLeft: '230px' }}>
+      {/* <ErrorBoundary>
         <Workflow addNode={setAddNodeFunc} />
+        </ErrorBoundary> */}
+        <Workflow addNode={setAddNodeFunc} />
+
       </div>
     </div>
   );
