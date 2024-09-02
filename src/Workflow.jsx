@@ -72,6 +72,26 @@ const CustomEdge = ({
     </>
   );
 };
+
+const buildNestedJson = (nodes, edges, rootId) => {
+  const nodeMap = new Map(nodes.map(node => [node.id, node]));
+  const edgeMap = new Map(edges.map(edge => [edge.source, edge.target]));
+
+  const buildNode = (id) => {
+    const node = nodeMap.get(id);
+    if (!node) return null;
+
+    const nextNodeId = edgeMap.get(id);
+    return {
+      ...node.data,
+      type: node.type,
+      next_node: nextNodeId ? buildNode(nextNodeId) : null,
+    };
+  };
+
+  return buildNode(rootId);
+};
+
 export default function Workflow({ addNode }) {
   const initialNodes = [
     {
@@ -120,7 +140,6 @@ export default function Workflow({ addNode }) {
       setNodes((nds) => [...nds, newNode]);
     }
   }, [nodes, setNodes]);
-  
 
   const handleDeleteNode = useCallback((nodeId) => {
     setNodes((nds) => nds.filter(node => node.id !== nodeId));
@@ -135,19 +154,28 @@ export default function Workflow({ addNode }) {
       setEdges((eds) => {
         const updatedEdges = addEdge({ ...params, type: 'custom' }, eds);
         
-        // Find source and target nodes based on edge params
-        const sourceNode = nodes.find(node => node.id === params.source);
-        const targetNode = nodes.find(node => node.id === params.target);
+        // Log nodes and edges in JSON format
+        const nodesJson = nodes.map(node => ({
+          id: node.id,
+          type: node.type,
+          position: node.position,
+          data: node.data,
+        }));
         
-        console.log('Source Node ID:', params.source);
-        console.log('Target Node Data:', targetNode ? targetNode.data : 'Not found');
-        console.log('Updated Nodes Tree:', updatedEdges.map(edge => ({
+        const edgesJson = updatedEdges.map(edge => ({
           id: edge.id,
           source: edge.source,
-          target: edge.target
-        })));
-        console.log('Updated Edges:', updatedEdges);
-        
+          target: edge.target,
+          type: edge.type,
+        }));
+
+        console.log('Nodes JSON:', JSON.stringify(nodesJson, null, 2));
+        console.log('Edges JSON:', JSON.stringify(edgesJson, null, 2));
+
+        // Assuming '1' is the root node id
+        const nestedJson = buildNestedJson(nodes, updatedEdges, '1');
+        console.log('Nested JSON:', JSON.stringify(nestedJson, null, 2));
+
         return updatedEdges;
       });
     },
