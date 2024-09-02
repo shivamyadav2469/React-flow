@@ -169,11 +169,14 @@ const styles = {
     padding: '15px',
     width: '220px',
     backgroundColor: '#fff',
-    boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
     position: 'relative',
-    height: 'auto', // Automatically adjusts height based on content
-    minHeight: '100px', // Adjust as needed to ensure visibility of content
+    minHeight: '300px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px', 
+    
   },
 
   title: {

@@ -7,12 +7,18 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
-  getBezierPath,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import CustomNodeComponent from './CustomNodeComponent';
 import CustomNodeComponent2 from './CustomNodeComponent2';
 import Sidebar from './Sidebar';
+
+const getBezierPath = ({ sourceX, sourceY, targetX, targetY }) => {
+  const controlX = (sourceX + targetX) / 2;
+  const controlY = (sourceY + targetY) / 2;
+
+  return `M ${sourceX} ${sourceY} C ${controlX} ${sourceY} ${controlX} ${targetY} ${targetX} ${targetY}`;
+};
 
 const CustomEdge = ({
   id,
@@ -31,6 +37,11 @@ const CustomEdge = ({
     targetX,
     targetY,
   });
+
+  if (typeof edgePath !== 'string' || edgePath.includes('NaN')) {
+    console.error('Invalid edgePath:', edgePath);
+    return null;
+  }
 
   return (
     <>
@@ -61,7 +72,6 @@ const CustomEdge = ({
     </>
   );
 };
-
 export default function Workflow({ addNode }) {
   const initialNodes = [
     {
@@ -99,16 +109,15 @@ export default function Workflow({ addNode }) {
         ...nodeToCopy,
         id: `${+new Date()}`, // New ID for the copied node
         position: {
-          ...nodeToCopy.position, // Copy position
-          x: nodeToCopy.position.x + 50, // Offset position to avoid overlap
-          y: nodeToCopy.position.y + 50,
+          x: nodeToCopy.position.x + 250, // Offset position to avoid overlap
+          y: nodeToCopy.position.y + 150,
         },
         data: {
           ...nodeToCopy.data, // Ensure independent data state
         }
       };
       
-      setNodes((nds) => nds.concat(newNode));
+      setNodes((nds) => [...nds, newNode]);
     }
   }, [nodes, setNodes]);
   
