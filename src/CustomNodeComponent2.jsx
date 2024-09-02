@@ -66,11 +66,11 @@ const CustomNodeComponent2 = ({ data, node, onCopy, onDelete }) => {
   };
 
   const handleCopy = () => {
-    if (onCopy) onCopy(node.id); // Access the node ID from the node object
+    if (onCopy) onCopy(node.id); 
   };
 
   const handleDelete = () => {
-    if (onDelete) onDelete(node.id); // Access the node ID from the node object
+    if (onDelete) onDelete(node.id); 
   };
 
   return (
@@ -93,7 +93,6 @@ const CustomNodeComponent2 = ({ data, node, onCopy, onDelete }) => {
         ))}
       </div>
 
-      {/* Message Inputs */}
       {messages.map((message, index) => (
         <div key={index} style={styles.inputContainer}>
           <input
@@ -109,7 +108,6 @@ const CustomNodeComponent2 = ({ data, node, onCopy, onDelete }) => {
         </div>
       ))}
 
-      {/* Display Selected Files */}
       {selectedFiles.document && (
         <div style={styles.fileInfo}>
           📄 {selectedFiles.document.name}
@@ -126,7 +124,6 @@ const CustomNodeComponent2 = ({ data, node, onCopy, onDelete }) => {
         </div>
       )}
 
-      {/* Hidden File Inputs */}
       <input
         type="file"
         accept=".pdf,.doc,.docx"

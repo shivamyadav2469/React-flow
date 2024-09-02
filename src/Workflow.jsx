@@ -127,13 +127,13 @@ export default function Workflow({ addNode }) {
     if (nodeToCopy) {
       const newNode = {
         ...nodeToCopy,
-        id: `${+new Date()}`, // New ID for the copied node
+        id: `${+new Date()}`, 
         position: {
-          x: nodeToCopy.position.x + 250, // Offset position to avoid overlap
+          x: nodeToCopy.position.x + 250, 
           y: nodeToCopy.position.y + 150,
         },
         data: {
-          ...nodeToCopy.data, // Ensure independent data state
+          ...nodeToCopy.data,
         }
       };
       
@@ -154,7 +154,6 @@ export default function Workflow({ addNode }) {
       setEdges((eds) => {
         const updatedEdges = addEdge({ ...params, type: 'custom' }, eds);
         
-        // Log nodes and edges in JSON format
         const nodesJson = nodes.map(node => ({
           id: node.id,
           type: node.type,
@@ -172,7 +171,6 @@ export default function Workflow({ addNode }) {
         console.log('Nodes JSON:', JSON.stringify(nodesJson, null, 2));
         console.log('Edges JSON:', JSON.stringify(edgesJson, null, 2));
 
-        // Assuming '1' is the root node id
         const nestedJson = buildNestedJson(nodes, updatedEdges, '1');
         console.log('Nested JSON:', JSON.stringify(nestedJson, null, 2));
 
